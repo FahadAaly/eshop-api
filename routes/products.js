@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const ProductController = require('../controllers/products');
+const auth = require('../middleware/auth');
+
 const MAP_FILE_TYPE = {
     'image/png': 'png',
     'image/jpeg': 'jpeg',
@@ -26,7 +28,7 @@ const storage = multer.diskStorage({
 
 const uploadOptions = multer({ storage: storage });
 
-router.get('/', ProductController.GetProductList);
+router.get('/', auth, ProductController.GetProductList);
 router.get('/:id', ProductController.GetProductById);
 router.post('/', uploadOptions.single('image'), ProductController.PostProduct);
 router.put('/:id', ProductController.UpdateProduct);
