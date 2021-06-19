@@ -5,18 +5,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
-//routes
-const productsRouter = require('./routes/products');
-const categoriesRouter = require('./routes/categories');
-const userRouter = require('./routes/users');
-const orderRouter = require('./routes/orders');
 
 require('dotenv/config');
 
 app.use(cors());
 app.options('*', cors());
-
-const apiUrl = process.env.API_URL;
 
 // Middleware
 app.use(express.json());
@@ -25,10 +18,7 @@ app.use(authJwt());
 app.use('public/uploads', express.static(__dirname + 'public/uploads'));
 app.use(errorHandler);
 
-app.use(`${apiUrl}/products`, productsRouter);
-app.use(`${apiUrl}/categories`, categoriesRouter);
-app.use(`${apiUrl}/users`, userRouter);
-app.use(`${apiUrl}/orders`, orderRouter);
+app.use(require('./routes'));
 
 const port = process.env.PORT || 3000;
 
